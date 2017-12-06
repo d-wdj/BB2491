@@ -13,7 +13,6 @@ with open("../../Data/metadata_patient_code.txt", 'r') as m:
 ## correct cohort
 # os.system("""head -n 50000 ../Data/raw_counts.txt > 50k_raw_counts.txt""")
 with open("../../Data/raw_counts.txt", 'r') as r:
-
     with open ("../data/raw_counts_NASH_code.txt", 'w') as N:
         r = r.readlines()
         for z, line in enumerate(r):
@@ -24,6 +23,8 @@ with open("../../Data/raw_counts.txt", 'r') as r:
                 for nash in line[1:]:
                     if "U" not in (metadata[nash]) and "X" not in (metadata[nash]):
                         sampleID.append(metadata[nash])
+                    # else:
+                    #     print (nash)
                 sampleID = '\t'.join(sampleID)
                 N.write(sampleID+'\n')
             else:

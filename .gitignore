@@ -1,4 +1,5 @@
 *.xcworkspace
+git_push.sh
 # Created by https://www.gitignore.io/api/python
 
 ### Python ###
