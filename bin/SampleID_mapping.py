@@ -29,6 +29,8 @@ with open("../../Data/raw_counts.txt", 'r') as r:
                 N.write(sampleID+'\n')
             else:
                 N.write(line)
+
+                
         # r = r.readlines()
         # header = r[0].strip('\n').split()
         # for tID in header[1:]:
