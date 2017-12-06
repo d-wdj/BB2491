@@ -30,7 +30,7 @@ with open("../../Data/raw_counts.txt", 'r') as r:
             else:
                 N.write(line)
 
-                
+
         # r = r.readlines()
         # header = r[0].strip('\n').split()
         # for tID in header[1:]:
@@ -53,7 +53,6 @@ with open("../../Data/raw_counts.txt", 'r') as r:
 #
 
 #     with open("raw_counts_NASH_code.txt", 'w') as n:
-
 
 ## To replace the first line - sampleID with the ones you generated
 ## https://stackoverflow.com/questions/13438095/replace-the-first-line-in-a-text-file-by-a-string/13438118#13438118
