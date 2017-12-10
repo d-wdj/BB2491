@@ -9,7 +9,7 @@ with open('../reference/ensembl_ref_dict.txt', 'r') as en:
     print ("Generating dictionary...")
     for line in en[1:]:
         val = line.split()
-        tID_dict[line[2]] = val
+        tID_dict[val[2]] = val
     print ("Done.")
 
 ## Example dictionary key:value
@@ -52,5 +52,5 @@ Merging and summing replicates...""")
 data = data.groupby(data.index, sort=True).sum()
 data = data.T.groupby([s.split('.')[0] for s in data.T.index.values]).sum().T
 print ("Writing into file...")
-data.to_csv(path_or_buf="../data/processed_raw_counts.txt", sep ='\t')
+data.to_csv(path_or_buf="../data/processed_raw_counts.txt")
 print ("Done!")
