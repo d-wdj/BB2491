@@ -45,7 +45,13 @@ import numpy as np
 ### samples (i.e. NASH code X, U); (2) merge sample replicates; (3) sum values
 ### for the same gene IDs.
 data = pd.read_table("../data/1k_NASH_gene_id.txt", index_col=0, header=0)
+data.drop([col for col in data.columns if 'U' in col or 'X' in col],
+        axis=1,inplace=True)
 data = data.groupby(data.index, sort=True).sum()
+data = data.T.groupby([s.split('.')[0] for s in data.T.index.values]).sum().T
+
+
+
 # print (data.groupby(data.index, sort=True).sum())
 
 
