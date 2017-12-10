@@ -24,7 +24,7 @@ with open("../data/raw_counts_NASH_code.txt", 'r') as ns:
     print ("Mapping transcript ID to gene ID...")
     RT = open("../data/raw_counts_NASH_geneID.txt", 'w')
     ns = ns.readlines()
-    RT.write(ns[0]+'\n')
+    RT.write(ns[0])
     transcript_not_found = 0
     total_transcript = 0
     for line in ns[1:]:
@@ -34,7 +34,7 @@ with open("../data/raw_counts_NASH_code.txt", 'r') as ns:
         # print (enst)
         if enst[0] in tID_dict:
             # print (enst, tID_dict[enst[0]][2], enst[1:])
-            RT.write(tID_dict[enst[0]][2] + '\t'.join(enst[1:]) + '\n')
+            RT.write(tID_dict[enst[0]][1] + '\t'.join(enst[1:]) + '\n')
         else:
             transcript_not_found += 1
             # print ("Transcript ID: {} not found.".format(enst[0]))
