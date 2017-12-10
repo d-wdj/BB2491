@@ -1,6 +1,6 @@
 ---
-title: "DESeq2 Analysis"
-output: DESeq2_Analysis
+title: "DESeq Analysis"
+output: DESeq_Analysis
 ---
 
 First, the data needs to be loaded (obviously).
@@ -10,8 +10,17 @@ directory <- "../data/processed_raw_counts.txt"
 data <- read.table(directory, sep='\t', header=TRUE, row.names=1)
 ```
 
+Second, we need to collect all the column names/header to classify our samples: H(ealthy), S(teatosis), N(on-alcoholic steatohepatitis), and C (Hepatocellular carcinoma). Preparing for processing by loading the DESeq library.
+
+```{r}
+healthy <- data[,grepl("H",names(data))]
+steatosis <- data[,grepl("S",names(data))]
+nash <- data[,grepl("N",names(data))]
+cancer <- data[,grepl("C",names(data))]
+
+library("DESeq2")
+library("DESeq")
+```
 
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).

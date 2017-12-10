@@ -52,5 +52,5 @@ Merging and summing replicates...""")
 data = data.groupby(data.index, sort=True).sum()
 data = data.T.groupby([s.split('.')[0] for s in data.T.index.values]).sum().T
 print ("Writing into file...")
-data.to_csv(path_or_buf="../data/processed_raw_counts.txt")
+data.to_csv(path_or_buf="../data/processed_raw_counts.tsv", sep='\t')
 print ("Done!")
