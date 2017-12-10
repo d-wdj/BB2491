@@ -2,8 +2,6 @@ import sys
 import pandas as pd
 import numpy as np
 
-
-
 ### Step 1: Load the dictionary
 tID_dict = dict()
 with open('../reference/ensembl_ref_dict.txt', 'r') as en:
@@ -17,7 +15,7 @@ with open('../reference/ensembl_ref_dict.txt', 'r') as en:
 # print (tID_dict)
 
 ## Example dictionary key:value
-## {'ENST00000601199': [['FAM231D', '510', 'ENSG00000268674'], 'NA']}
+## {'ENST00000601199': [['FAM231D', 'ENSG00000268674'], 'NA']}
 ## {transcriptID: [g_Name, g_length, g_ID, tsl]}
 
 ### Step 2: Map the transcript ID into the gene ID
