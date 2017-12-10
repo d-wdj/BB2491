@@ -1,9 +1,12 @@
 import sys
+import pandas as pd
+import numpy as np
+
 
 
 ### Step 1: Load the dictionary
 tID_dict = dict()
-with open('../data/ensembl_ref_dict.txt', 'r') as en:
+with open('../reference/ensembl_ref_dict.txt', 'r') as en:
     en = en.readlines()
     for line in en[1:]:
         val = []
@@ -44,3 +47,7 @@ with open("../data/raw_counts_NASH_code.txt", 'r') as ns:
 ### Step 3: Possibly use awk(sed?) to replace the first column, i.e. the tID
 ### into the gene ID?
 # key itemgetter groupby? to group by gene and sum them tgt
+## Trying pandas dataframe...
+
+data = pd.read_table("../data/1k_NASH_gene_id.txt", index_col=1)
+print (data)
