@@ -34,7 +34,7 @@ with open("../data/raw_counts_NASH_code.txt", 'r') as ns:
         # print (enst)
         if enst[0] in tID_dict:
             # print (enst, tID_dict[enst[0]][2], enst[1:])
-            RT.write(tID_dict[enst[0]][1] + '\t'.join(enst[1:]) + '\n')
+            RT.write(tID_dict[enst[0]][1]+'\t'+'\t'.join(enst[1:])+'\n')
         else:
             transcript_not_found += 1
             # print ("Transcript ID: {} not found.".format(enst[0]))
@@ -42,12 +42,17 @@ with open("../data/raw_counts_NASH_code.txt", 'r') as ns:
     print ("{}/{} transcripts not found.".format(transcript_not_found,
                                                 total_transcript))
     print ("Done!")
-#
+
+### Step 3: Load the file into a pandas dataframe. Then do (1) remove low-Q
+### samples (i.e. NASH code X, U); (2) merge duplicates; (3) sum values for
+### the same gene IDs.
+# data = pd.read_table("../data/1k_NASH_gene_id.txt", index_col=0, header=0)
+# print (data)
+
+
+
 #
 # ### Step 3: Possibly use awk(sed?) to replace the first column, i.e. the tID
 # ### into the gene ID?
 # # key itemgetter groupby? to group by gene and sum them tgt
 # ## Trying pandas dataframe...
-#
-# data = pd.read_table("../data/1k_NASH_gene_id.txt", index_col=1)
-# print (data)
