@@ -4,8 +4,8 @@ def slice_reference():
     with open("../reference/transcript.gtf", 'r') as t:
         t = t.readlines()
         # for z, line in enumerate(t):
-        ref = open("../data/ensembl_ref_dict.txt", 'w')
-        genes = "gene_name\tgene_length\tgene_id"
+        ref = open("../reference/ensembl_ref_dict.txt", 'w')
+        genes = "gene_name\tgene_id"
         transcript = "transcript_id\ttsl"
         ref.write(genes+'\t'+transcript+'\n')
         for line in t:
@@ -26,6 +26,7 @@ def slice_reference():
             # print (transcript_id, tsl)
         ref.close()
         print ("Done!")
+        return True
 
 if os.path.isfile("../reference/transcript.gtf") == False:
     print ("Transcript.gtf is not found, generating...")
