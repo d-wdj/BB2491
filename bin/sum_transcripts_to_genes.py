@@ -44,12 +44,17 @@ import numpy as np
 ### Step 3: Load the file into a pandas dataframe. Then do (1) remove low-Q
 ### samples (i.e. NASH code X, U); (2) merge sample replicates; (3) sum values
 ### for the same gene IDs.
-data = pd.read_table("../data/1k_NASH_gene_id.txt", index_col=0, header=0)
+print ("Loading the data...")
+data = pd.read_table("../data/raw_counts_NASH_geneID.txt", index_col=0, header=0)
 data.drop([col for col in data.columns if 'U' in col or 'X' in col],
         axis=1,inplace=True)
+print ("""Removing low-quality samples...
+Merging and summing replicates...""")
 data = data.groupby(data.index, sort=True).sum()
 data = data.T.groupby([s.split('.')[0] for s in data.T.index.values]).sum().T
-
+print ("Writing into file...")
+data.to_csv(path_or_buf="../data/processed_raw_counts.txt", sep ='\t')
+print ("Done!")
 
 
 # print (data.groupby(data.index, sort=True).sum())
