@@ -8,8 +8,8 @@ First, the data needs to be loaded (obviously).
 ```{r}
 directory <- "../data/processed_raw_counts.tsv"
 data <- read.table(directory, sep='\t', header=TRUE, row.names=1)
-N <- nrow(data)
-data <- data[1:(N-45000),]
+#N <- nrow(data)
+#data <- data[1:(N-45000),]
 ```
 
 Second, we need to collect all the column names/header to classify our samples: H(ealthy), S(teatosis), N(on-alcoholic steatohepatitis), and C (Hepatocellular carcinoma). Preparing for processing by loading the DESeq library.
@@ -45,7 +45,7 @@ Finally, we print some of the results... (and also saving the output into our re
 HS <- data.frame(results(dds, contrast = c('condition', "H", "S")))
 SN <- data.frame(results(dds, contrast = c('condition', "S", "N")))
 NC <- data.frame(results(dds, contrast = c('condition', "N", "C")))
-write.table(HS, file="../results/HS_DESeq2.tsv", sep='\t')
-write.table(SN, file="../results/SN_DESeq2.tsv", sep='\t')
-write.table(NC, file="../results/NC_DESeq2.tsv", sep='\t')
+#write.table(HS, file="../results/HS_DESeq2.tsv", sep='\t')
+#write.table(SN, file="../results/SN_DESeq2.tsv", sep='\t')
+#write.table(NC, file="../results/NC_DESeq2.tsv", sep='\t')
 ```

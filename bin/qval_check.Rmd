@@ -25,3 +25,9 @@ NC <- NC[NC$padj < 0.05,]
 NC <- NC[rowSums(is.na(NC)) == 0, ]
 
 ```
+
+```{r}
+write.table(HS, file="../results/HS_FDR.tsv", sep='\t')
+write.table(SN, file="../results/SN_FDR.tsv", sep='\t')
+write.table(NC, file="../results/NC_FDR.tsv", sep='\t')
+```
