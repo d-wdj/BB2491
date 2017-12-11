@@ -14,28 +14,35 @@ data <- data[1:(N-45000),]
 
 Second, we need to collect all the column names/header to classify our samples: H(ealthy), S(teatosis), N(on-alcoholic steatohepatitis), and C (Hepatocellular carcinoma). Preparing for processing by loading the DESeq library.
 
-```{r}
+```{r} 
 healthy <- data[,grepl("H",names(data))]
 steatosis <- data[,grepl("S",names(data))]
 nash <- data[,grepl("N",names(data))]
 cancer <- data[,grepl("C",names(data))]
-
+source("http://www.bioconductor.org/biocLite.R")
 library("DESeq2")
+```
 
-names(healthy) <- c(rep("H", length(healthy)))
-names(steatosis) <- c(rep("S", length(steatosis)))
-names(nash) <- c(rep("N", length(nash)))
-names(cancer) <- c(rep("C", length(cancer)))
+Third, we need to prepare the data by appropriating the input format for DESeq2.
+
+```{r}
+total_data <- cbind(healthy, steatosis, nash, cancer)
+total_data <- round(total_data,0)
+col_names <- colnames(total_data)
+condition <- c(rep("H", length(healthy)), rep("S", length(steatosis)), rep("N", length(nash)), rep("C", length(cancer)))
+(coldata <- data.frame(row.names=colnames(total_data), condition))
 ```
 
 Now we begin...
 
 ```{r}
-# sampleNames <- c("H", "S", "N", "C")
-HS <- merge(healthy, steatosis)
-HS_names <- merge(healthy_names, steatosis_names)
-cds <- newCountDataSet(HS, HS_names)
-cds <- estimateSizeFactors(cds)
-cds <- estimateDispersions(cds)
-res_HS <- nbinomTest(cds, "H", "S")
+dds <- DESeqDataSetFromMatrix(countData=total_data, colData=coldata, design=~condition)
+dds <- DESeq(dds)
+```
+
+Finally, we print some of the results... (and also saving the output into our results directory)
+```{r}
+HS <- data.frame(results(dds, contrast = c('condition', "H", "S")))
+SN <- data.frame(results(dds, contrast = c('condition', "S", "N")))
+SC <- data.frame(results(dds, contrast = c('condition', "N", "C")))
 ```
