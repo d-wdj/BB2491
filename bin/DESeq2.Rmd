@@ -6,8 +6,10 @@ output: DESeq_Analysis
 First, the data needs to be loaded (obviously).
 
 ```{r}
-directory <- "../data/processed_raw_counts.txt"
+directory <- "../data/processed_raw_counts.tsv"
 data <- read.table(directory, sep='\t', header=TRUE, row.names=1)
+N <- nrow(data)
+data <- data[1:(N-45000),]
 ```
 
 Second, we need to collect all the column names/header to classify our samples: H(ealthy), S(teatosis), N(on-alcoholic steatohepatitis), and C (Hepatocellular carcinoma). Preparing for processing by loading the DESeq library.
@@ -19,8 +21,21 @@ nash <- data[,grepl("N",names(data))]
 cancer <- data[,grepl("C",names(data))]
 
 library("DESeq2")
-library("DESeq")
+
+names(healthy) <- c(rep("H", length(healthy)))
+names(steatosis) <- c(rep("S", length(steatosis)))
+names(nash) <- c(rep("N", length(nash)))
+names(cancer) <- c(rep("C", length(cancer)))
 ```
 
+Now we begin...
 
-
+```{r}
+# sampleNames <- c("H", "S", "N", "C")
+HS <- merge(healthy, steatosis)
+HS_names <- merge(healthy_names, steatosis_names)
+cds <- newCountDataSet(HS, HS_names)
+cds <- estimateSizeFactors(cds)
+cds <- estimateDispersions(cds)
+res_HS <- nbinomTest(cds, "H", "S")
+```
