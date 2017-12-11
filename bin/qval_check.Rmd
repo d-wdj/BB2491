@@ -1,0 +1,27 @@
+---
+title: "q-Val checking"
+output: q-Val_checking
+---
+
+Loading the files...
+
+```{r}
+directory <- "../results/"
+HS <- read.table("../results/HS_DESeq2_genesymb.tsv", sep='\t', header=TRUE)
+SN <- read.table("../results/SN_DESeq2_genesymb.tsv", sep='\t', header=TRUE)
+NC <- read.table("../results/NC_DESeq2_genesymb.tsv", sep='\t', header=TRUE)
+```
+
+Filtering for FDR=5%
+
+```{r}
+HS <- HS[HS$padj < 0.05,]
+HS <- HS[rowSums(is.na(HS)) == 0, ]
+
+SN <- SN[SN$padj < 0.05,]
+SN <- SN[rowSums(is.na(SN)) == 0, ]
+
+NC <- NC[NC$padj < 0.05,]
+NC <- NC[rowSums(is.na(NC)) == 0, ]
+
+```
