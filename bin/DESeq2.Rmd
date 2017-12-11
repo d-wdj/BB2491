@@ -45,4 +45,7 @@ Finally, we print some of the results... (and also saving the output into our re
 HS <- data.frame(results(dds, contrast = c('condition', "H", "S")))
 SN <- data.frame(results(dds, contrast = c('condition', "S", "N")))
 SC <- data.frame(results(dds, contrast = c('condition', "N", "C")))
+write.csv(HS, file="../results/HS_DESeq2.tsv", sep='\t')
+write.csv(SN, file="../results/SN_DESeq2.tsv", sep='\t')
+write.csv(SC, file="../results/SC_DESeq2.tsv", sep='\t')
 ```
