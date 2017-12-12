@@ -1,20 +1,7 @@
----
-title: "Limma"
-output: Limma
----
-
-As usual, loading data...
-
-```{r}
 directory <- "../data/processed_raw_counts.tsv"
 data <- read.table(directory, sep='\t', header=TRUE, row.names=1)
 N <- nrow(data)
-data <- data[1:(N-45000),]
-```
 
-
-# https://stat.ethz.ch/pipermail/bioconductor/2013-April/051980.html 
-```{r}
 library("limma")
 library("edgeR")
 
@@ -22,9 +9,7 @@ healthy <- data[,grepl("H",names(data))]
 steatosis <- data[,grepl("S",names(data))]
 nash <- data[,grepl("N",names(data))]
 cancer <- data[,grepl("C",names(data))]
-```
 
-```{r}
 HS <- cbind(healthy, steatosis)
 dge <- DGEList(counts=HS)
 dge <- calcNormFactors(dge)
@@ -51,6 +36,3 @@ fit <- lmFit(logCPM)
 fit <- eBayes(fit, trend=TRUE)
 NC_fit <- data.frame(fit)
 write.table(NC_fit, file="../results/NC_limma.tsv", sep='\t')
-```
-
-
