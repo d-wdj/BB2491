@@ -13,4 +13,9 @@ and sums the transcripts that map to the same gene. Output file ready for DE ana
 the limma package.  
 
 3. Post-DESeq2  
-* prep_piano.py: Converts the Ensembl gene IDs to HPA gene symbols. Also filters down the results to only the protein-coding genes.  
+* *prep_piano.py*: Converts the Ensembl gene IDs to HPA gene symbols. Also filters down the results to only the protein-coding genes.
+
+
+
+Other:
+* *qval_check.Rmd*: miniscript to check for DE-genes at FDR 5%. 
