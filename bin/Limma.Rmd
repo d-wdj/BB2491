@@ -12,46 +12,58 @@ N <- nrow(data)
 data <- data[1:(N-45000),]
 ```
 
-
+# https://support.bioconductor.org/p/32502/
 # https://stat.ethz.ch/pipermail/bioconductor/2013-April/051980.html 
 ```{r}
 library("limma")
 library("edgeR")
 
-healthy <- data[,grepl("H",names(data))]
-steatosis <- data[,grepl("S",names(data))]
-nash <- data[,grepl("N",names(data))]
-cancer <- data[,grepl("C",names(data))]
+# healthy <- data[,grepl("H",names(data))]
+# steatosis <- data[,grepl("S",names(data))]
+# nash <- data[,grepl("N",names(data))]
+# cancer <- data[,grepl("C",names(data))]
+
+h_len <- length(data[,grepl("H",names(data))])
+s_len <- length(data[,grepl("S",names(data))])
+n_len <- length(data[,grepl("N",names(data))])
+c_len <- length(data[,grepl("C",names(data))])
+s <- factor(c(rep("H", h_len), rep("S", s_len), rep("N", n_len), rep("C", c_len)))
+design <- model.matrix(~0+s)
+colnames(design) <- levels(s)
+fit <- lmFit(data, design)
+contr <- makeContrasts(H-S, S-N, N-C, levels = design)
+fit.contr <- eBayes(contrasts.fit(fit,contr))
+data.frame(fit.contr)
 ```
 
 ```{r}
-HS <- cbind(healthy, steatosis)
-dge <- DGEList(counts=HS)
-dge <- calcNormFactors(dge)
-logCPM <- cpm(dge, log=TRUE, prior.count=3)
-fit <- lmFit(logCPM)
-fit <- eBayes(fit, trend=TRUE)
+# HS <- cbind(healthy, steatosis)
+# dge <- DGEList(counts=HS)
+# dge <- calcNormFactors(dge)
+# logCPM <- cpm(dge, log=TRUE, prior.count=3)
+# fit <- lmFit(logCPM)
+# fit <- eBayes(fit, trend=TRUE)
 #topTable(fit)
-HS_fit <- data.frame(fit)
-write.table(HS_fit, file="../results/HS_limma.tsv", sep='\t')
+# HS_fit <- data.frame(fit)
+# write.table(HS_fit, file="../results/HS_limma.tsv", sep='\t')
 
-SN <- cbind(steatosis, nash)
-dge <- DGEList(counts=SN)
-dge <- calcNormFactors(dge)
-logCPM <- cpm(dge, log=TRUE, prior.count=3)
-fit <- lmFit(logCPM)
-fit <- eBayes(fit, trend=TRUE)
-SN_fit <- data.frame(fit)
-write.table(SN_fit, file="../results/SN_limma.tsv", sep='\t')
-
-NC <- cbind(nash, cancer)
-dge <- DGEList(counts=NC)
-dge <- calcNormFactors(dge)
-logCPM <- cpm(dge, log=TRUE, prior.count=3)
-fit <- lmFit(logCPM)
-fit <- eBayes(fit, trend=TRUE)
-NC_fit <- data.frame(fit)
-write.table(NC_fit, file="../results/NC_limma.tsv", sep='\t')
+# SN <- cbind(steatosis, nash)
+# dge <- DGEList(counts=SN)
+# dge <- calcNormFactors(dge)
+# logCPM <- cpm(dge, log=TRUE, prior.count=3)
+# fit <- lmFit(logCPM)
+# fit <- eBayes(fit, trend=TRUE)
+# SN_fit <- data.frame(fit)
+# write.table(SN_fit, file="../results/SN_limma.tsv", sep='\t')
+# 
+# NC <- cbind(nash, cancer)
+# dge <- DGEList(counts=NC)
+# dge <- calcNormFactors(dge)
+# logCPM <- cpm(dge, log=TRUE, prior.count=3)
+# fit <- lmFit(logCPM)
+# fit <- eBayes(fit, trend=TRUE)
+# NC_fit <- data.frame(fit)
+# write.table(NC_fit, file="../results/NC_limma.tsv", sep='\t')
 ```
 
 
