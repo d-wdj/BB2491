@@ -10,13 +10,13 @@ This time, instead of loading the raw processed files, the ones that have been p
 HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
 HS <- read.table(HS_dir, sep='\t', header=TRUE) #Cannot convert to df cause there are duplicates.
 N <- nrow(HS)
-HS <- HS[1:(N-18000),]
+HS <- HS[1:(N-18500),]
 HS <- HS[complete.cases(HS), ] #Removing all rows containing at least one NA
 #HS[duplicated(HS$gene_symbol), ]
 
 ## Correcting the names, e.g. XX2YAZ.18 --> XX2YAZ
-HS_names <- c(gsub("(.*)\\..*", "\\1", HS$gene_symbol))
-HS$gene_symbol <- HS_names # Assigning name back to matrix
+#HS_names <- c(gsub("(.*)\\..*", "\\1", HS$gene_symbol))
+#HS$gene_symbol <- HS_names # Assigning name back to matrix
 ## Removing duplicates
 HS <- HS[!duplicated(HS$gene_symbol), ]
 ## Converting to dataframe (not really necessary?)
@@ -31,7 +31,6 @@ HS <- data.frame(HS)
 ## Taking the p-val only cos needed for Piano processing downstream
 HS_stat <- HS$pvalue
 names(HS_stat) <- paste(HS$gene_symbol, sep="")
-head(HS_stat)
 #HS_stat[duplicated(HS_stat)]
 library("piano")
 ```
