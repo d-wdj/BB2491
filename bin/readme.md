@@ -8,7 +8,7 @@ and sums the transcripts that map to the same gene. Output file ready for DE ana
 
 2. Differential Expression Analysis
 * *DESeq2.Rmd/DESeq2.R*: Takes in the processed raw_count files, appropriate the input for DESeq2 in R then generate .tsv files containing the statistical analyses across the different disease states.   
-* * *DESeq.Rmd/DESeq.R*: Similar to DESeq2, but appropriates it for DESeq instead.   
+* *DESeq.Rmd/DESeq.R*: Similar to DESeq2, but appropriates it for DESeq instead.   
 * *Limma.Rmd/limma.R*: Loads the processed raw_count files and conduct DE analysis using
 the limma package.  
 
