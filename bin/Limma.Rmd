@@ -33,7 +33,14 @@ colnames(design) <- levels(s)
 fit <- lmFit(data, design)
 contr <- makeContrasts(H-S, S-N, N-C, levels = design)
 fit.contr <- eBayes(contrasts.fit(fit,contr))
-data.frame(fit.contr)
+len <- nrow(data)
+HS <- data.frame(topTable(fit.contr, coef = 1, number=len))
+SN <- data.frame(topTable(fit.contr, coef = 2, number=len))
+NC <- data.frame(topTable(fit.contr, coef = 3, number=len))
+write.table(HS, file="../results/HS_limma.tsv", sep='\t')
+write.table(SN, file="../results/SN_limma.tsv", sep='\t')
+write.table(NC, file="../results/NC_limma.tsv", sep='\t')
+
 ```
 
 ```{r}

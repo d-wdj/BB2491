@@ -7,33 +7,40 @@ This time, instead of loading the raw processed files, the ones that have been p
 
 ```{r}
 ## Loading the files
-HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
-HS <- read.table(HS_dir, sep='\t', header=TRUE) #Cannot convert to df cause there are duplicates.
-N <- nrow(HS)
-HS <- HS[1:(N-18500),]
-HS <- HS[complete.cases(HS), ] #Removing all rows containing at least one NA
-#HS[duplicated(HS$gene_symbol), ]
+# HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
+# HS <- read.table(HS_dir, sep='\t', header=TRUE) #Cannot convert to df cause there are duplicates.
+# N <- nrow(HS)
+# HS <- HS[1:(N-18500),]
+# HS <- HS[complete.cases(HS), ] #Removing all rows containing at least one NA
+# #HS[duplicated(HS$gene_symbol), ]
+# 
+# ## Correcting the names, e.g. XX2YAZ.18 --> XX2YAZ
+# #HS_names <- c(gsub("(.*)\\..*", "\\1", HS$gene_symbol))
+# #HS$gene_symbol <- HS_names # Assigning name back to matrix
+# ## Removing duplicates
+# HS <- HS[!duplicated(HS$gene_symbol), ]
+# ## Converting to dataframe (not really necessary?)
+# HS <- data.frame(HS)
+# 
+# #HS_correct_row_name
+# #HS <- data.frame(HS)
+# #HS$gene_symbol <- HS$gene_symbol[gsub("(.*)\\..*", "\\1", HS$gene_symbol)]
+# #gsub("(.*)\\..*", "\\1", HS$gene_symbol)
+# #dupl <- HS[duplicated(HS$gene_symbol),]
+# 
+# ## Taking the p-val only cos needed for Piano processing downstream
+# fc <- HS$log2FoldChange
+# HS_stat <- HS$pvalue
+# names(HS_stat) <- paste(HS$gene_symbol)
+# names(fc) <- paste(HS$gene_symbol)
+# #HS_stat[duplicated(HS_stat)]
+limma_dir <- "../results/Limma/Limma_genesymb.tsv"
+limma <- read.table(limma_dir, sep='\t', header=TRUE)
+N <- nrow(limma)
+limma <- limma[1:(N-18500),]
+limma <- limma[complete.cases(limma), ]
+limma <- limma[!duplicated(limma$gene_symbol), ]
 
-## Correcting the names, e.g. XX2YAZ.18 --> XX2YAZ
-#HS_names <- c(gsub("(.*)\\..*", "\\1", HS$gene_symbol))
-#HS$gene_symbol <- HS_names # Assigning name back to matrix
-## Removing duplicates
-HS <- HS[!duplicated(HS$gene_symbol), ]
-## Converting to dataframe (not really necessary?)
-HS <- data.frame(HS)
-
-#HS_correct_row_name
-#HS <- data.frame(HS)
-#HS$gene_symbol <- HS$gene_symbol[gsub("(.*)\\..*", "\\1", HS$gene_symbol)]
-#gsub("(.*)\\..*", "\\1", HS$gene_symbol)
-#dupl <- HS[duplicated(HS$gene_symbol),]
-
-## Taking the p-val only cos needed for Piano processing downstream
-fc <- HS$log2FoldChange
-HS_stat <- HS$pvalue
-names(HS_stat) <- paste(HS$gene_symbol)
-names(fc) <- paste(HS$gene_symbol)
-#HS_stat[duplicated(HS_stat)]
 ```
 
 Now we load the gene set which we want to check our statistics against. Then run and display some of the results.
@@ -43,6 +50,6 @@ library("piano")
 kegg <- loadGSC("../reference/c2.cp.kegg.v6.1.symbols.gmt")
 #go <- loadGSC("../reference/c5.bp.v6.1.symbols.gmt")
 #head(kegg$gsc) #To check the top few.
-gsaRes <- runGSA(HS_stat, fc, gsc=kegg, geneSetStat="reporter", signifMethod="nullDist", nPerm=1000, verbose=TRUE)
+# gsaRes <- runGSA(HS_stat, fc, gsc=kegg, geneSetStat="reporter", signifMethod="nullDist", nPerm=1000, verbose=TRUE)
 head(GSAsummaryTable(gsaRes))
 ```

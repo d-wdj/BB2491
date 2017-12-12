@@ -3,6 +3,8 @@ kegg <- loadGSC("../reference/c2.cp.kegg.v6.1.symbols.gmt")
 go <- loadGSC("../reference/c5.bp.v6.1.symbols.gmt")
 onco <- loadGSC("../reference/c6.all.v6.1.symbols.gmt")
 
+
+#### DESeq
 ### Healthy-Steatosis
 print ("HEALTHY-STEATOSIS")
 HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
@@ -71,3 +73,6 @@ GSAsummaryTable(gsaRes_NC_go, save=TRUE, file="../results/NC_go_piano.xls")
 gsaRes_NC_onco <- runGSA(NC_stat, fc, gsc=onco, geneSetStat="reporter", 
                          signifMethod="nullDist", nPerm=1000, verbose=TRUE)
 GSAsummaryTable(gsaRes_NC_onco, save=TRUE, file="../results/NC_onco_piano.xls")
+
+
+### Limma
