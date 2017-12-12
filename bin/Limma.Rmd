@@ -31,6 +31,7 @@ dge <- calcNormFactors(dge)
 logCPM <- cpm(dge, log=TRUE, prior.count=3)
 fit <- lmFit(logCPM)
 fit <- eBayes(fit, trend=TRUE)
+#topTable(fit)
 HS_fit <- data.frame(fit)
 write.table(HS_fit, file="../results/HS_limma.tsv", sep='\t')
 

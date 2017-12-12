@@ -1,0 +1,32 @@
+---
+title: "Piano"
+output: Piano
+---
+
+This time, instead of loading the raw processed files, the ones that have been processed using DESeq(2) or Limma is loaded. Piano requires the numbers produced by statistical analyses of such tools, additionally as it will try to associate these with metabolic pathways, Piano also requires the genes to be listed with their symbols, rather than their Ensembl IDs.
+
+```{r}
+HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
+HS <- read.table(HS_dir, sep='\t', header=TRUE)
+HS <- HS[complete.cases(HS), ]
+#HS[duplicated(HS$gene_symbol), ]
+HS <- HS[!duplicated(HS$gene_symbol), ]
+#HS$gene_symbol <- HS$gene_symbol[gsub("(.*)\\..*", "\\1", HS$gene_symbol)]
+#gsub("(.*)\\..*", "\\1", HS$gene_symbol)
+#dupl <- HS[duplicated(HS$gene_symbol),]
+HS_stat <- HS$pvalue
+names(HS_stat) <- paste("gene", HS$gene_symbol, sep="")
+#head(HS_stat)
+#HS_stat[duplicated(HS_stat)]
+library("piano")
+```
+
+Now we load the gene set which we want to check our statistics against.
+
+```{r}
+kegg <- loadGSC("../reference/c2.cp.kegg.v6.1.symbols.gmt")
+#go <- loadGSC("../reference/c5.bp.v6.1.symbols.gmt")
+#head(kegg$gsc) #To check the top few.
+
+gsaRes <- runGSA(HS_stat, gsc=go, verbose=TRUE)
+```
