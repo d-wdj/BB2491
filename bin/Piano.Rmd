@@ -29,23 +29,20 @@ HS <- data.frame(HS)
 #dupl <- HS[duplicated(HS$gene_symbol),]
 
 ## Taking the p-val only cos needed for Piano processing downstream
+fc <- HS$log2FoldChange
 HS_stat <- HS$pvalue
-names(HS_stat) <- paste(HS$gene_symbol, sep="")
+names(HS_stat) <- paste(HS$gene_symbol)
+names(fc) <- paste(HS$gene_symbol)
 #HS_stat[duplicated(HS_stat)]
-library("piano")
 ```
 
-Now we load the gene set which we want to check our statistics against.
+Now we load the gene set which we want to check our statistics against. Then run and display some of the results.
 
 ```{r}
+library("piano")
 kegg <- loadGSC("../reference/c2.cp.kegg.v6.1.symbols.gmt")
-#kegg$gsc
 #go <- loadGSC("../reference/c5.bp.v6.1.symbols.gmt")
 #head(kegg$gsc) #To check the top few.
-
-gsaRes <- runGSA(HS_stat, gsc=kegg, verbose=TRUE)
-```
-
-```{r}
-GSAsummaryTable(gsaRes)
+gsaRes <- runGSA(HS_stat, fc, gsc=kegg, geneSetStat="reporter", signifMethod="nullDist", nPerm=1000, verbose=TRUE)
+head(GSAsummaryTable(gsaRes))
 ```
