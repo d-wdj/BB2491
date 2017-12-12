@@ -6,17 +6,32 @@ output: Piano
 This time, instead of loading the raw processed files, the ones that have been processed using DESeq(2) or Limma is loaded. Piano requires the numbers produced by statistical analyses of such tools, additionally as it will try to associate these with metabolic pathways, Piano also requires the genes to be listed with their symbols, rather than their Ensembl IDs.
 
 ```{r}
+## Loading the files
 HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
-HS <- read.table(HS_dir, sep='\t', header=TRUE)
-HS <- HS[complete.cases(HS), ]
+HS <- read.table(HS_dir, sep='\t', header=TRUE) #Cannot convert to df cause there are duplicates.
+N <- nrow(HS)
+HS <- HS[1:(N-18000),]
+HS <- HS[complete.cases(HS), ] #Removing all rows containing at least one NA
 #HS[duplicated(HS$gene_symbol), ]
+
+## Correcting the names, e.g. XX2YAZ.18 --> XX2YAZ
+HS_names <- c(gsub("(.*)\\..*", "\\1", HS$gene_symbol))
+HS$gene_symbol <- HS_names # Assigning name back to matrix
+## Removing duplicates
 HS <- HS[!duplicated(HS$gene_symbol), ]
+## Converting to dataframe (not really necessary?)
+HS <- data.frame(HS)
+
+#HS_correct_row_name
+#HS <- data.frame(HS)
 #HS$gene_symbol <- HS$gene_symbol[gsub("(.*)\\..*", "\\1", HS$gene_symbol)]
 #gsub("(.*)\\..*", "\\1", HS$gene_symbol)
 #dupl <- HS[duplicated(HS$gene_symbol),]
+
+## Taking the p-val only cos needed for Piano processing downstream
 HS_stat <- HS$pvalue
-names(HS_stat) <- paste("gene", HS$gene_symbol, sep="")
-#head(HS_stat)
+names(HS_stat) <- paste(HS$gene_symbol, sep="")
+head(HS_stat)
 #HS_stat[duplicated(HS_stat)]
 library("piano")
 ```
@@ -25,8 +40,13 @@ Now we load the gene set which we want to check our statistics against.
 
 ```{r}
 kegg <- loadGSC("../reference/c2.cp.kegg.v6.1.symbols.gmt")
+#kegg$gsc
 #go <- loadGSC("../reference/c5.bp.v6.1.symbols.gmt")
 #head(kegg$gsc) #To check the top few.
 
-gsaRes <- runGSA(HS_stat, gsc=go, verbose=TRUE)
+gsaRes <- runGSA(HS_stat, gsc=kegg, verbose=TRUE)
+```
+
+```{r}
+GSAsummaryTable(gsaRes)
 ```
