@@ -7,7 +7,7 @@ This time, instead of loading the raw processed files, the ones that have been p
 
 ```{r}
 ## Loading the files
-# HS_dir <- "../results/HS_DESeq2_genesymb.tsv"
+# HS_dir <- "../results/DESeq2/HS_DESeq2_genesymb.tsv"
 # HS <- read.table(HS_dir, sep='\t', header=TRUE) #Cannot convert to df cause there are duplicates.
 # N <- nrow(HS)
 # HS <- HS[1:(N-18500),]
@@ -34,12 +34,19 @@ This time, instead of loading the raw processed files, the ones that have been p
 # names(HS_stat) <- paste(HS$gene_symbol)
 # names(fc) <- paste(HS$gene_symbol)
 # #HS_stat[duplicated(HS_stat)]
-limma_dir <- "../results/Limma/Limma_genesymb.tsv"
-limma <- read.table(limma_dir, sep='\t', header=TRUE)
-N <- nrow(limma)
-limma <- limma[1:(N-18500),]
-limma <- limma[complete.cases(limma), ]
-limma <- limma[!duplicated(limma$gene_symbol), ]
+
+print ("HEALTHY-STEATOSIS")
+HS_dir <- "../results/DESeq/HS_DESeq_genesymb.tsv"
+HS <- read.csv2(HS_dir, sep='\t', header=TRUE) 
+HS <- HS[complete.cases(HS), ]
+HS <- HS[!duplicated(HS$gene_symbol), ]
+HS <- data.frame(HS)
+
+fc <- HS$log2FoldChange
+HS_stat <- HS$pval
+names(HS_stat) <- paste(HS$gene_symbol)
+names(fc) <- paste(HS$gene_symbol)
+
 
 ```
 
@@ -51,5 +58,7 @@ kegg <- loadGSC("../reference/c2.cp.kegg.v6.1.symbols.gmt")
 #go <- loadGSC("../reference/c5.bp.v6.1.symbols.gmt")
 #head(kegg$gsc) #To check the top few.
 # gsaRes <- runGSA(HS_stat, fc, gsc=kegg, geneSetStat="reporter", signifMethod="nullDist", nPerm=1000, verbose=TRUE)
-head(GSAsummaryTable(gsaRes))
+gsaRes_HS_kegg <- runGSA(HS_stat, fc, gsc=kegg, geneSetStat="reporter", 
+                 signifMethod="nullDist", nPerm=1000, verbose=TRUE)
+GSAsummaryTable(gsaRes_HS_kegg, save=TRUE, file="../results/DESeq/HS_kegg_DESeq_piano.xls")
 ```
