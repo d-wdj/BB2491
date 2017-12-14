@@ -7,15 +7,20 @@
 and sums the transcripts that map to the same gene. Output file ready for DE analysis.
 
 2. Differential Expression Analysis
-* *DESeq2.Rmd/DESeq2.R*: Takes in the processed raw_count files, appropriate the input for DESeq2 in R then generate .tsv files containing the statistical analyses across the different disease states.   
+* *DESeq2.Rmd/DESeq2.R*: Takes in the processed raw_count files, appropriate the
+input for DESeq2 in R then generate .tsv files containing the statistical analyses
+across the different disease states.   
 * *DESeq.Rmd/DESeq.R*: Similar to DESeq2, but appropriates it for DESeq instead.   
 * *Limma.Rmd/limma.R*: Loads the processed raw_count files and conduct DE analysis using
 the limma package.  
 
 3. Post-DESeq2  
-* *prep_piano.py*: Converts the Ensembl gene IDs to HPA gene symbols. Also filters down the results to only the protein-coding genes.
-
+* *prep_piano.py*: Converts the Ensembl gene IDs to HPA gene symbols. Also
+filters down the results to only the protein-coding genes.
+* *filter_deseq2.py*: Collects all the genes that are differentially expressed
+(FDR threshold: 5%) then append information of the type of RNA expression and the 
+TPM value from the Human Protein Atlas.
 
 
 Other:
-* *qval_check.Rmd*: miniscript to check for DE-genes at FDR 5%. 
+* *qval_check.Rmd*: miniscript to check for DE-genes at FDR 5%.
