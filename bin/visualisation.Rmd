@@ -9,7 +9,7 @@ output:
 library("ggplot2")
 library("dplyr")
 NC <- read.table("../results/DESeq2/NC_DESeq2_genesymb.tsv", header=1, sep='\t')
-# NC <- NC[complete.cases(NC), ]
+NC <- NC[complete.cases(NC), ]
 
 NCL <- read.table("../results/DESeq2/NC_DESeq2_genesymb_FDR5%_filtered.tsv", header=1, sep='\t')
 NCL <- NCL[complete.cases(NCL), ]
@@ -17,24 +17,32 @@ NCL_genes <- (NCL[,1])
 ```
 
 ```{r}
-##Highlight genes that have an absolute fold change > 2 and a p-value < Bonferroni cut-off
-# if_else( abs(log2FoldChange) > 2 & padj < 0.05), "B" ))
 NC <- NC%>%mutate(threshold = ifelse(padj < 0.05 & abs(log2FoldChange) > 2 
                                      & gene_symbol %in% NCL_genes, "A",
+                              ifelse(padj < 0.05 & abs(log2FoldChange) < 2
+                                     & gene_symbol %in% NCL_genes, "Z",
                               ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "B",
-                              ifelse(padj < 0.05, "C", "D"))))
+                              ifelse(padj < 0.05, "C", "D")))))
 
-# NC <- NC%>%mutate(threshold = ifelse(abs(padj) < 0.05, "B",
-#                               ifelse(abs(log2FoldChange) > 2 & padj <0.05, "C",
-#                               ifelse(abs(log2FoldChange)> 2 & padj < 0.05 &  gene_symbol %in%
-#                                        NCL_genes, "D", "A"))))
-# tcolour = c("A"="black", "B"="red", "C"="blue", "D"="green")
-# ）NC$threshold = as.factor(abs(NC$log2FoldChange) > 2 & NC$padj < 0.05)
-#  
 g <- ggplot(data=NC,
             aes(log2FoldChange, -log10(padj))
             ) +
-      geom_point(alpha=0.4, size=1.75, aes(colour=factor(threshold)))
+      geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
+      scale_colour_manual(values=c("A"="darkviolet",
+                                   "Z"="green4",
+                                   "B"="lightblue",
+                                   "C"="lightcoral",
+                                   "D"="gray46")) +
+      theme_bw() + 
+      theme(legend.position="none",
+            plot.title=element_text(hjust= 0.5)) + 
+      geom_text_repel(data=filter(NC, padj < 0.05 & abs(log2FoldChange) > 2 
+                                     & gene_symbol %in% NCL_genes), aes(label=gene_symbol)) +
+      xlab("log2 Fold Change") + ylab("-log10 Adjusted p-Value") +
+      ggtitle ("Volcano Plot for DESeq2 Results between NASH and HCC Progression")
+ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5, dpi=300,
+       width=5, height=3)
+g
 ##Construct the plot object <-- THIS WORKS, COLOUR UGLY tho 
 # g <- ggplot(data=NC,
 #             aes(x=log2FoldChange, y=-log10(padj),
