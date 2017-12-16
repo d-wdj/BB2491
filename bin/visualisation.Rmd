@@ -40,7 +40,9 @@ g <- ggplot(data=NC,
                                      & gene_symbol %in% NCL_genes), aes(label=gene_symbol)) +
       xlab("log2 Fold Change") + ylab("-log10 Adjusted p-Value") +
       ggtitle ("Volcano Plot for DESeq2 Results between NASH and HCC Progression")
-ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5, dpi=300,
+
+
+ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5, dpi=450,
        width=5, height=3)
 g
 ##Construct the plot object <-- THIS WORKS, COLOUR UGLY tho 
