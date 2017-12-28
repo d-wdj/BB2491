@@ -1,8 +1,5 @@
 ---
 title: "Visualisation of Data"
-output:
-  html_document:
-    keep_md: true
 ---
 
 ```{r}
