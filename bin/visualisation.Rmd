@@ -33,10 +33,10 @@ g <- ggplot(data=NC,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="darkviolet",
-                                   "Z"="green4",
-                                   "B"="lightblue",
-                                   "C"="lightcoral",
+      scale_colour_manual(values=c("A"="red1",
+                                   "Z"="darkviolet",
+                                   "B"="steelblue1",
+                                   "C"="gold2",
                                    "D"="gray46")) +
       theme_bw() + 
       theme(legend.position="none",
@@ -47,8 +47,8 @@ g <- ggplot(data=NC,
       ggtitle ("Volcano Plot for DESeq2 Results between NASH and HCC Progression") + 
       geom_hline(yintercept=padj_th, size=0.5, linetype="dashed")
 
-ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5, dpi=450,
-      width=5, height=3)
+ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5,
+        dpi=450, width=5, height=3)
 g
 ```
 
@@ -63,9 +63,9 @@ g <- ggplot(data=HS,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="red",
+      scale_colour_manual(values=c("A"="red1",
                                   # "Z"="green4",
-                                   "B"="blue",
+                                   "B"="steelblue1",
                                    "C"="gray46" )) + #,
                                   # "D"="gray46")) +
       theme_bw() + 
@@ -91,9 +91,9 @@ g <- ggplot(data=SN,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="red",
+      scale_colour_manual(values=c("A"="red1",
                                   # "Z"="green4",
-                                   "B"="blue",
+                                   "B"="steelblue1",
                                    "C"="gray46" )) + #,
                                   # "D"="gray46")) +
       theme_bw() + 
