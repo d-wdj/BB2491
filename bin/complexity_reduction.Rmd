@@ -27,8 +27,8 @@ tsne_h <- Rtsne(as.matrix(unique(t(h))))#, theta=0.20)
 th <- ggplot(data.frame(tsne_h$Y), aes(X1, X2)) + 
       geom_point(alpha=0.55, size=1.25) +
       ggtitle ("Healthy")
-ggsave("../pictures/tSNE_healthy.png", plot=last_plot(), scale=1.5,
-        dpi=450, width=5, height=3)
+# ggsave("../pictures/tSNE_healthy.png", plot=last_plot(), scale=1.5,
+#         dpi=450, width=5, height=3)
 
 th
 ```
