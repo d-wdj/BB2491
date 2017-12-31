@@ -1,0 +1,11 @@
+
+```{r}
+directory <- "../results/DESeq2/HS_DESeq2_genesymb.tsv"
+HS <- data.frame(read.table(directory, header=TRUE))
+```
+
+```{r}
+library("ggplot2")
+library("DESeq2")
+hs <- DESeqResults(HS)
+```

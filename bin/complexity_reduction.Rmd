@@ -32,3 +32,9 @@ th <- ggplot(data.frame(tsne_h$Y), aes(X1, X2)) +
 
 th
 ```
+
+```{r}
+pca_h <- prcomp(h, scale.=T, center=TRUE)
+plot(pca_h)
+summary(pca_h)
+```
