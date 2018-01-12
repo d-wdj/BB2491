@@ -8,12 +8,15 @@ library("ggrepel")
 library("dplyr")
 
 padj_th <- -log10(0.05)
+notable_set <- c("FASN", "PCSK9", "PNPLA3")
 ```
 
 ```{r}
 ### NASH-HCC
 NC <- read.table("../results/DESeq2/NC_DESeq2_genesymb.tsv", header=1, sep='\t')
 NC <- NC[complete.cases(NC), ]
+
+notable <- subset(NC, gene_symbol %in% notable_set)
 
 NCL <- read.table("../results/DESeq2/NC_DESeq2_genesymb_FDR5%_filtered.tsv", header=1, sep='\t')
 NCL <- NCL[complete.cases(NCL), ]
@@ -40,8 +43,9 @@ g <- ggplot(data=NC,
             plot.title=element_text(hjust= 0.5)) + 
       geom_text_repel(data=filter(NC, padj < 0.05 & abs(log2FoldChange) > 2 
                                      & gene_symbol %in% NCL_genes), aes(label=gene_symbol)) +
+      geom_text_repel(data=notable, aes(label=gene_symbol), fontface="italic") + 
       xlab("log2 Fold Change") + ylab("-log10 Adjusted p-Value") +
-      ggtitle ("Volcano Plot for DESeq2 Results between NASH and HCC Progression") + 
+      ggtitle ("NASH - HCC Progression") + 
       geom_hline(yintercept=padj_th, size=0.5, linetype="dashed")
 
 ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5,
@@ -53,6 +57,8 @@ g
 HS <- read.table("../results/DESeq2/HS_DESeq2_genesymb.tsv", header=1, sep='\t')
 HS <- HS[complete.cases(HS), ]
 
+notable <- subset(HS, gene_symbol %in% notable_set)
+
 HS <- HS%>%mutate(threshold= ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "A",
                              ifelse(padj < 0.05 & abs(log2FoldChange) < 2, "B", "C")))
 
@@ -60,17 +66,18 @@ g <- ggplot(data=HS,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="red1",
+      scale_colour_manual(values=c("A"="steelblue1",#"red1",  
                                   # "Z"="green4",
-                                   "B"="steelblue1",
+                                   "B"="gold2", #"steelblue1",
                                    "C"="gray46" )) + #,
                                   # "D"="gray46")) +
       theme_bw() + 
       theme(legend.position="none",
             plot.title=element_text(hjust= 0.5)) + 
       geom_text_repel(data=filter(HS, padj < 0.05), aes(label=gene_symbol)) + 
+      geom_text_repel(data=notable, aes(label=gene_symbol), fontface="italic") + 
       xlab("log2 Fold Change") + ylab("-log10 Adjusted p-Value") +
-      ggtitle ("Volcano Plot for DESeq2 Results between Healthy and Steatosis Progression") + 
+      ggtitle ("Healthy - Steatosis Progression") + 
       geom_hline(yintercept=padj_th, size=0.5, linetype="dashed")
 ggsave("../pictures/volcano_deseq2_hs.png", plot=last_plot(), scale=1.5, dpi=450,
       width=5, height=3)
@@ -81,6 +88,8 @@ g
 SN <- read.table("../results/DESeq2/SN_DESeq2_genesymb.tsv", header=1, sep='\t')
 SN <- SN[complete.cases(SN), ]
 
+notable <- subset(SN, gene_symbol %in% notable_set)
+
 SN <- SN%>%mutate(threshold= ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "A",
                              ifelse(padj < 0.05 & abs(log2FoldChange) < 2, "B", "C")))
 
@@ -88,17 +97,18 @@ g <- ggplot(data=SN,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="red1",
+      scale_colour_manual(values=c("A"="steelblue1",#"red1",  
                                   # "Z"="green4",
-                                   "B"="steelblue1",
+                                   "B"="gold2", #"steelblue1",
                                    "C"="gray46" )) + #,
                                   # "D"="gray46")) +
       theme_bw() + 
       theme(legend.position="none",
             plot.title=element_text(hjust= 0.5)) + 
       geom_text_repel(data=filter(SN, padj < 0.05), aes(label=gene_symbol)) + 
+      geom_text_repel(data=notable, aes(label=gene_symbol), fontface="italic") + 
       xlab("log2 Fold Change") + ylab("-log10 Adjusted p-Value") +
-      ggtitle ("Volcano Plot for DESeq2 Results between Steatosis and NASH Progression") + 
+      ggtitle ("Steatosis - NASH Progression") + 
       geom_hline(yintercept=padj_th, size=0.5, linetype="dashed")
 
 ggsave("../pictures/volcano_deseq2_sn.png", plot=last_plot(), scale=1.5, dpi=450,
