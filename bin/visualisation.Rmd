@@ -48,8 +48,8 @@ g <- ggplot(data=NC,
       ggtitle ("NASH - HCC Progression") + 
       geom_hline(yintercept=padj_th, size=0.5, linetype="dashed")
 
-ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5,
-        dpi=450, width=5, height=3)
+# ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5,
+#         dpi=450, width=5, height=3)
 g
 ```
 
