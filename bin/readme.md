@@ -18,9 +18,14 @@ the limma package.
 * *prep_piano.py*: Converts the Ensembl gene IDs to HPA gene symbols. Also
 filters down the results to only the protein-coding genes.
 * *filter_deseq2.py*: Collects all the genes that are differentially expressed
-(FDR threshold: 5%) then append information of the type of RNA expression and the 
-TPM value from the Human Protein Atlas.
+(FDR threshold: 5%) then append information of the type of RNA expression and the
+TPM value from the Human Protein Atlas.  
+* *Piano.Rmd/Piano.R*: Runs the R-package Piano for pathway analysis.  
+* *visualisation.Rmd*: Takes in DESeq2 results and generate volcano plots!
 
 
-Other:
-* *qval_check.Rmd*: miniscript to check for DE-genes at FDR 5%.
+Other:  
+* *generate_transcript.sh*: subsets Ensembl reference GFF based on transcripts.
+* *qval_check.Rmd*: miniscript to check for DE-genes at FDR 5%.  
+* *qval_histogram.py*: a script to generate a histogram of the q-values from DESeq2.  
+* *complexity_reduction*: an attempt to do some clustering within a sample group.  

@@ -1,9 +1,0 @@
---- 
-title : GO Visualisation
----
-
-```{r}
-library(readxl)
-HS <- "../results/DESeq2/HS_go_piano.xls"
-HS <- read_excel(HS)
-```
