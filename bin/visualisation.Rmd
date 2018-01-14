@@ -6,9 +6,11 @@ title: "Visualisation of Data"
 library("ggplot2")
 library("ggrepel")
 library("dplyr")
+library("scales")
 
 padj_th <- -log10(0.05)
 notable_set <- c("FASN", "PCSK9", "PNPLA3")
+ #gold, blue, purple, red, grey
 ```
 
 ```{r}
@@ -22,24 +24,28 @@ NCL <- read.table("../results/DESeq2/NC_DESeq2_genesymb_FDR5%_filtered.tsv", hea
 NCL <- NCL[complete.cases(NCL), ]
 NCL_genes <- (NCL[,1])
 
+legend <- c("Expressed in liver", "Expressed in liver", "log2FC > 2", "q-val < 0.05",   "Not DE")
 NC <- NC%>%mutate(threshold = ifelse(padj < 0.05 & abs(log2FoldChange) > 2 
                                      & gene_symbol %in% NCL_genes, "A",
                               ifelse(padj < 0.05 & abs(log2FoldChange) < 2
-                                     & gene_symbol %in% NCL_genes, "Z",
-                              ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "B",
-                              ifelse(padj < 0.05, "C", "D")))))
+                                     & gene_symbol %in% NCL_genes, "B",
+                              ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "C",
+                              ifelse(padj < 0.05, "D", "E")))))
 
 g <- ggplot(data=NC,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="red1",
-                                   "Z"="darkviolet",
-                                   "B"="steelblue1",
-                                   "C"="gold2",
-                                   "D"="gray46")) +
+      scale_colour_manual(values=c("D"="gold2",
+                                   "C"="steelblue1",
+                                   "B"="darkviolet",
+                                   "A"="red1",
+                                   "E"="gray46"),
+                          name = "",
+                          labels = legend) +
       theme_bw() + 
-      theme(legend.position="none",
+      theme(legend.position=c(0.9, 0.925),
+            legend.background = element_rect(fill="transparent"),
             plot.title=element_text(hjust= 0.5)) + 
       geom_text_repel(data=filter(NC, padj < 0.05 & abs(log2FoldChange) > 2 
                                      & gene_symbol %in% NCL_genes), aes(label=gene_symbol)) +
@@ -48,8 +54,8 @@ g <- ggplot(data=NC,
       ggtitle ("NASH - HCC Progression") + 
       geom_hline(yintercept=padj_th, size=0.5, linetype="dashed")
 
-# ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5,
-#         dpi=450, width=5, height=3)
+ggsave("../pictures/volcano_deseq2_nc.png", plot=last_plot(), scale=1.5,
+        dpi=450, width=5, height=3)
 g
 ```
 
@@ -59,20 +65,31 @@ HS <- HS[complete.cases(HS), ]
 
 notable <- subset(HS, gene_symbol %in% notable_set)
 
-HS <- HS%>%mutate(threshold= ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "A",
-                             ifelse(padj < 0.05 & abs(log2FoldChange) < 2, "B", "C")))
+HSL <- read.table("../results/DESeq2/HS_DESeq2_genesymb_FDR5%_filtered.tsv", header=1, sep='\t')
+HSL <- HSL[complete.cases(HSL), ]
+HSL_genes <- (HSL[,1])
 
+HS <- HS%>%mutate(threshold = ifelse(padj < 0.05 & abs(log2FoldChange) > 2 
+                                     & gene_symbol %in% NCL_genes, "A",
+                              ifelse(padj < 0.05 & abs(log2FoldChange) < 2
+                                     & gene_symbol %in% NCL_genes, "B",
+                              ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "C",
+                              ifelse(padj < 0.05, "D", "E")))))
+legend <- c("log2FC > 2", "q-val < 0.05",   "Not DE")
 g <- ggplot(data=HS,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="steelblue1",#"red1",  
-                                  # "Z"="green4",
-                                   "B"="gold2", #"steelblue1",
-                                   "C"="gray46" )) + #,
-                                  # "D"="gray46")) +
+      scale_colour_manual(values=c("D"="gold2",
+                                   "C"="steelblue1",
+                                   "B"="darkviolet",
+                                   "A"="red1",
+                                   "E"="gray46"),
+                          name = "",
+                          labels = legend) +
       theme_bw() + 
-      theme(legend.position="none",
+      theme(legend.position=c(0.9, 0.925),
+            legend.background = element_rect(fill="transparent"),
             plot.title=element_text(hjust= 0.5)) + 
       geom_text_repel(data=filter(HS, padj < 0.05), aes(label=gene_symbol)) + 
       geom_text_repel(data=notable, aes(label=gene_symbol), fontface="italic") + 
@@ -90,20 +107,28 @@ SN <- SN[complete.cases(SN), ]
 
 notable <- subset(SN, gene_symbol %in% notable_set)
 
-SN <- SN%>%mutate(threshold= ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "A",
-                             ifelse(padj < 0.05 & abs(log2FoldChange) < 2, "B", "C")))
+SN <- SN%>%mutate(threshold = ifelse(padj < 0.05 & abs(log2FoldChange) > 2 
+                                     & gene_symbol %in% NCL_genes, "A",
+                              ifelse(padj < 0.05 & abs(log2FoldChange) < 2
+                                     & gene_symbol %in% NCL_genes, "B",
+                              ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "C",
+                              ifelse(padj < 0.05, "D", "E")))))
 
+legend <- c("Expressed in liver", "log2FC > 2",   "Not DE")
 g <- ggplot(data=SN,
             aes(log2FoldChange, -log10(padj))
             ) +
       geom_point(alpha=0.55, size=1.75, aes(colour=factor(threshold))) + 
-      scale_colour_manual(values=c("A"="steelblue1",#"red1",  
-                                  # "Z"="green4",
-                                   "B"="gold2", #"steelblue1",
-                                   "C"="gray46" )) + #,
-                                  # "D"="gray46")) +
+      scale_colour_manual(values=c("D"="gold2",
+                                   "C"="steelblue1",
+                                   "B"="darkviolet",
+                                   "A"="red1",
+                                   "E"="gray46"),
+                          name = "",
+                          labels = legend) +
       theme_bw() + 
-      theme(legend.position="none",
+      theme(legend.position=c(0.9, 0.925),
+            legend.background = element_rect(fill="transparent"),
             plot.title=element_text(hjust= 0.5)) + 
       geom_text_repel(data=filter(SN, padj < 0.05), aes(label=gene_symbol)) + 
       geom_text_repel(data=notable, aes(label=gene_symbol), fontface="italic") + 

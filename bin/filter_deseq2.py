@@ -14,7 +14,7 @@ with open("../reference/proteinatlas.tsv", 'r') as pt:
         # There are many genes with unknown localisation so we will discard them
         # The column 'RNA Tissue Category' might be interesting so will save it.
         # The reasoning is that we may not have time to investigate all the
-        # genes especially if they are housekeeping genes.
+        # genes.
         if line[17] == "":
             line[17] = "NA"
         loc[line[0]] = [line[14], line[17]]
