@@ -64,3 +64,5 @@ for limma in glob.glob((dir+"*_limma.tsv")):
     gs.close()
 
 print ("Done!")
+
+###ARCHIVED 2018.01.15

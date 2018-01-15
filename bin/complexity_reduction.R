@@ -36,3 +36,5 @@ tc <- ggplot(data.frame(tsne_c$Y), aes(X1, X2)) +
   ggtitle ("HCC")
 ggsave("../pictures/tSNE_HCC.png", plot=last_plot(), scale=1.5,
        dpi=450, width=5, height=3)
+
+###ARCHIVED 2018.01.15

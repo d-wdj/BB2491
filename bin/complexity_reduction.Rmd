@@ -38,3 +38,4 @@ pca_h <- prcomp(h, scale.=T, center=TRUE)
 plot(pca_h)
 summary(pca_h)
 ```
+###ARCHIVED 2018.01.15

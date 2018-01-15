@@ -62,3 +62,4 @@ gsaRes_HS_kegg <- runGSA(HS_stat, fc, gsc=kegg, geneSetStat="reporter",
                  signifMethod="nullDist", nPerm=1000, verbose=TRUE)
 GSAsummaryTable(gsaRes_HS_kegg, save=TRUE, file="../results/DESeq/HS_kegg_DESeq_piano.xls")
 ```
+###ARCHIVED 2018.01.15

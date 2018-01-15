@@ -144,3 +144,4 @@ GSAsummaryTable(gsaRes_NC_go, save=TRUE, file="../results/DESeq2/NC_go_DESeq2_pi
 # # gsaRes_NC_onco <- runGSA(NC_stat, fc, gsc=onco, geneSetStat="reporter", 
 # #                          signifMethod="nullDist", nPerm=1000, verbose=TRUE)
 # # GSAsummaryTable(gsaRes_NC_onco, save=TRUE, file="../results/Limma/NC_onco_Limma_piano.xls")
+###ARCHIVED 2018.01.15

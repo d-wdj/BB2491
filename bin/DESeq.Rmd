@@ -47,3 +47,5 @@ res_NC <- nbinomTest(cds, "N", "C")
 
 
 
+
+###ARCHIVED 2018.01.15

@@ -140,3 +140,4 @@ ggsave("../pictures/volcano_deseq2_sn.png", plot=last_plot(), scale=1.5, dpi=450
       width=5, height=3)
 g
 ```
+###ARCHIVED 2018.01.15

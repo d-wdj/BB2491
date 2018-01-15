@@ -56,3 +56,5 @@ for dsq in glob.glob(dir+"??_DESeq2_genesymb.tsv"):
 
 
 print ("Done.")
+
+###ARCHIVED 2018.01.15

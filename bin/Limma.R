@@ -24,3 +24,4 @@ NC <- data.frame(topTable(fit.contr, coef = 3, number=len))
 write.table(HS, file="../results/HS_limma.tsv", sep='\t')
 write.table(SN, file="../results/SN_limma.tsv", sep='\t')
 write.table(NC, file="../results/NC_limma.tsv", sep='\t')
+###ARCHIVED 2018.01.15

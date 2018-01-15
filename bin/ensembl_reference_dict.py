@@ -37,3 +37,5 @@ if os.path.isfile("../reference/transcript.gtf") == False:
 else:
     print ("Transcript.gtf found, generating dictionary...")
     slice_reference()
+
+###ARCHIVED 2018.01.15

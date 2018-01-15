@@ -70,3 +70,5 @@ print ("Done!")
     # f.truncate()
     # for l in lines:
     #     f.write(repl_str if l.startswith('NATOMS') else l)
+
+###ARCHIVED 2018.01.15

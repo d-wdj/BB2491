@@ -26,3 +26,4 @@ SC <- data.frame(results(dds, contrast = c('condition', "N", "C")))
 write.table(HS, file="../results/HS_DESeq2.tsv", sep='\t')
 write.table(SN, file="../results/SN_DESeq2.tsv", sep='\t')
 write.table(SC, file="../results/SC_DESeq2.tsv", sep='\t')
+###ARCHIVED 2018.01.15

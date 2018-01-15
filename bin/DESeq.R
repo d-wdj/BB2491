@@ -29,3 +29,5 @@ res_NC <- nbinomTest(cds, "N", "C")
 write.table(res_HS, file="../results/HS_DESeq.tsv", sep='\t')
 write.table(res_SN, file="../results/SN_DESeq.tsv", sep='\t')
 write.table(res_NC, file="../results/SC_DESeq.tsv", sep='\t')
+
+###ARCHIVED 2018.01.15

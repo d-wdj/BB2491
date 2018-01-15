@@ -35,3 +35,5 @@ plt.legend(loc='upper left')
 plt.title("Histogram of log10 of Adjusted p-values from DESeq2 Results")
 plt.savefig("../pictures/deseq2_qval_histogram_all.png", bbox_inches='tight')
 plt.show()
+
+###ARCHIVED 2018.01.15
